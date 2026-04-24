@@ -92,6 +92,7 @@ app.get('/api/leaderboard', async (req, res) => {
             .find({})
             .sort({ score: -1 })
             .limit(50)
+            .project({ handle: 1, score: 1, timestamp: 1, _id: 0 })
             .toArray();
         res.json(lb);
     } catch (e) {
@@ -122,8 +123,10 @@ app.post('/api/leaderboard', async (req, res) => {
         const cleanHandle = handle.toLowerCase().replace('@', '');
         const fullHandle = handle.startsWith('@') ? handle : '@' + handle;
 
-        // Check if user already has a score
+        // Check if this IP + handle combo already has a score
+        // This ties each handle to the device/IP that created it
         const existing = await db.collection('leaderboard').findOne({
+            ip: ip,
             handle: { $regex: new RegExp(`^@?${cleanHandle}$`, 'i') }
         });
 
@@ -138,16 +141,18 @@ app.post('/api/leaderboard', async (req, res) => {
         } else {
             await db.collection('leaderboard').insertOne({
                 handle: fullHandle,
+                ip: ip,
                 score,
                 timestamp: Date.now()
             });
         }
 
-        // Return updated leaderboard
+        // Return updated leaderboard (without IP for privacy)
         const lb = await db.collection('leaderboard')
             .find({})
             .sort({ score: -1 })
             .limit(50)
+            .project({ handle: 1, score: 1, timestamp: 1, _id: 0 })
             .toArray();
 
         res.json(lb);
