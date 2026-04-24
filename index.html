@@ -34,9 +34,10 @@
             background: var(--black);
             color: var(--white);
             font-family: 'Barlow', sans-serif;
-            touch-action: none;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-text-size-adjust: 100%;
+            overscroll-behavior: none;
         }
 
         #app {
@@ -273,7 +274,7 @@
             letter-spacing: 4px;
             text-align: center;
             line-height: 1.1;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
         }
 
         .pants-subtitle {
@@ -317,7 +318,7 @@
 
         .pants-card.selected {
             border-color: var(--white);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 30px rgba(255,255,255,0.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 30px rgba(255, 255, 255, 0.05);
         }
 
         .pants-card canvas {
@@ -334,13 +335,11 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 0, 0, 0.15) 2px,
-                rgba(0, 0, 0, 0.15) 4px
-            );
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.15) 2px,
+                    rgba(0, 0, 0, 0.15) 4px);
             pointer-events: none;
             z-index: 1;
         }
@@ -351,7 +350,7 @@
             left: 0;
             right: 0;
             padding: 10px 6px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
             font-family: 'Bebas Neue', sans-serif;
             font-size: 12px;
             letter-spacing: 3px;
@@ -369,7 +368,7 @@
             width: 22px;
             height: 22px;
             border: 2px solid var(--white);
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             color: var(--black);
             font-size: 12px;
             font-weight: bold;
@@ -975,7 +974,7 @@
                     <label for="follow-check">I follow <strong>@aestrawear</strong> on Instagram</label>
                 </div>
                 <button class="btn-primary" id="play-btn" disabled onclick="startGame()">PLAY</button>
-                <div class="fine-print">Top scores will be picked on the day of the camo pants drop.<br>the first 3
+                <div class="fine-print">Top scores will be picked on the day of the camo pants drop.<br>the first 4
                     winners will be revealed on instagram story so make sure to follow us.
                     Follow status will be manually verified before prizes are awarded.</div>
             </div>
@@ -1163,7 +1162,7 @@
         for (let i = 0; i < 4; i++) {
             const img = new Image();
             img.src = `pants/pants${i + 1}.png`;
-            img.onload = function() {
+            img.onload = function () {
                 // Draw into tiny canvas for pixelated look
                 const cardCanvas = document.getElementById('pants-canvas-' + i);
                 if (cardCanvas) {
